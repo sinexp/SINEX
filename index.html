@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SINEX - busca tu trabajo SIN EXperiencia</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fcf7fc;
+            color: #171717;
+        }
+
+        header {
+            background: white;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 28px;
+            font-size: 15px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            background: white;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto 35px;
+            font-size: 19px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #111;
+            color: white;
+        }
+
+        .secondary {
+            border: 1px solid #ccc;
+            color: #111;
+            background: white;
+        }
+
+        .section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 70px 20px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eeeeee;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px;
+            background: #111;
+            color: white;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">SINEX</div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#empleos">Buscar empleo</a>
+        <a href="#empresas">Ofertas</a>
+        <a href="#sobre">Sobre SINEX</a>
+    </nav>
+</header>
+
+
+<section class="hero" id="inicio">
+
+    <h1>busca tu trabajo SIN EXperiencia</h1>
+
+    <p>
+        SINEX conecta a personas que buscan una oportunidad
+         con empresas que buscan nuevos talentos.
+    </p>
+
+    <div class="buttons">
+        <a href="#empleos" class="button primary">
+            Buscar empleo
+        </a>
+
+        <a href="#empresas" class="button secondary">
+            Soy una empresa
+        </a>
+    </div>
+
+</section>
+
+
+<section class="section" id="empleos">
+
+    <h2>Ofertas de empleo</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Camarero/a</h3>
+
+            <p>
+                Restaurante de Albacete busca persona
+                para trabajar a media jornada.
+            </p>
+
+            <span class="tag">Sin experiencia</span>
+        </div>
+
+
+        <div class="card">
+            <h3>Dependiente/a</h3>
+
+            <p>
+                Comercio busca persona para trabajar
+                durante fines de semana.
+            </p>
+
+            <span class="tag">Sin experiencia</span>
+        </div>
+
+
+        <div class="card">
+            <h3>Administrativo/a Junior</h3>
+
+            <p>
+                Empresa busca persona con formación
+                administrativa.
+            </p>
+
+            <span class="tag">Sin experiencia</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="empresas">
+
+    <h2>¿Eres una empresa?</h2>
+
+    <p style="text-align:center; max-width:650px; margin:auto; line-height:1.6; color:#666;">
+        Encuentra personas que buscan una oportunidad
+        laboral y conecta con nuevos talentos.
+    </p>
+
+</section>
+
+
+<section class="section" id="sobre">
+
+    <h2>Sobre SINEX</h2>
+
+    <p style="text-align:center; max-width:700px; margin:auto; line-height:1.7; color:#666;">
+        SINEX nace para ayudar a estudiantes, recién graduados
+        y personas que buscan una oportunidad laboral a
+        conectar con empresas.
+    </p>
+
+</section>
+
+
+<footer>
+    © 2026 SINEX
+</footer>
+
+</body>
+</html>
