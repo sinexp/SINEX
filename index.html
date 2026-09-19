@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SINEX - busca tu trabajo SIN EXperiencia</title>
+    <title>SINEX - Encuentra tu primer trabajo</title>
 
     <style>
         * {
@@ -15,7 +15,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #fcf7fc;
+            background: #f7f8fc;
             color: #171717;
         }
 
@@ -73,6 +73,8 @@
             text-decoration: none;
             font-weight: bold;
             cursor: pointer;
+            border: none;
+            font-size: 15px;
         }
 
         .primary {
@@ -109,6 +111,13 @@
             border: 1px solid #e5e5e5;
             border-radius: 12px;
             padding: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .card h3 {
@@ -129,12 +138,97 @@
             font-size: 13px;
         }
 
+        .company-link {
+            color: #111;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
         footer {
             text-align: center;
             padding: 35px;
             background: #111;
             color: white;
             margin-top: 30px;
+        }
+
+        /* Ventana de detalles */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            padding: 30px 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 35px;
+            border-radius: 14px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        /* Formulario empresa */
+
+        .company-form {
+            display: none;
+            max-width: 650px;
+            margin: 35px auto 0;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .company-form input,
+        .company-form textarea,
+        .company-form select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .company-form label {
+            font-weight: bold;
+            font-size: 14px;
         }
 
         @media (max-width: 700px) {
@@ -162,7 +256,7 @@
     <nav>
         <a href="#inicio">Inicio</a>
         <a href="#empleos">Buscar empleo</a>
-        <a href="#empresas">Ofertas</a>
+        <a href="#empresas">Empresas</a>
         <a href="#sobre">Sobre SINEX</a>
     </nav>
 </header>
@@ -170,14 +264,15 @@
 
 <section class="hero" id="inicio">
 
-    <h1>busca tu trabajo SIN EXperiencia</h1>
+    <h1>Encuentra tu primer trabajo</h1>
 
     <p>
         SINEX conecta a personas que buscan una oportunidad
-         con empresas que buscan nuevos talentos.
+        laboral con empresas que buscan nuevos talentos.
     </p>
 
     <div class="buttons">
+
         <a href="#empleos" class="button primary">
             Buscar empleo
         </a>
@@ -185,6 +280,7 @@
         <a href="#empresas" class="button secondary">
             Soy una empresa
         </a>
+
     </div>
 
 </section>
@@ -196,7 +292,8 @@
 
     <div class="cards">
 
-        <div class="card">
+        <div class="card" onclick="mostrarOferta('camarero')">
+
             <h3>Camarero/a</h3>
 
             <p>
@@ -205,10 +302,12 @@
             </p>
 
             <span class="tag">Sin experiencia</span>
+
         </div>
 
 
-        <div class="card">
+        <div class="card" onclick="mostrarOferta('dependiente')">
+
             <h3>Dependiente/a</h3>
 
             <p>
@@ -217,10 +316,12 @@
             </p>
 
             <span class="tag">Sin experiencia</span>
+
         </div>
 
 
-        <div class="card">
+        <div class="card" onclick="mostrarOferta('administrativo')">
+
             <h3>Administrativo/a Junior</h3>
 
             <p>
@@ -229,6 +330,7 @@
             </p>
 
             <span class="tag">Sin experiencia</span>
+
         </div>
 
     </div>
@@ -236,14 +338,139 @@
 </section>
 
 
+<!-- Ventana de oferta -->
+
+<div id="modalOferta" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="cerrarOferta()">×</span>
+
+        <h2 id="ofertaTitulo"></h2>
+
+        <p id="ofertaEmpresa"></p>
+
+        <p id="ofertaUbicacion"></p>
+
+        <p id="ofertaJornada"></p>
+
+        <p id="ofertaDescripcion"></p>
+
+        <p id="ofertaRequisitos"></p>
+
+        <div class="modal-buttons">
+
+            <button class="button primary" onclick="meInteresa()">
+                Me interesa
+            </button>
+
+            <button class="button secondary" onclick="noMeInteresa()">
+                No me interesa
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <section class="section" id="empresas">
 
     <h2>¿Eres una empresa?</h2>
 
     <p style="text-align:center; max-width:650px; margin:auto; line-height:1.6; color:#666;">
-        Encuentra personas que buscan una oportunidad
-        laboral y conecta con nuevos talentos.
+
+        Publica tu oferta y encuentra personas que buscan
+        una oportunidad laboral.
+
+        <br><br>
+
+        <span class="company-link" onclick="mostrarFormulario()">
+            Publica tu oferta aquí
+        </span>
+
     </p>
+
+
+    <!-- Formulario -->
+
+    <div id="formularioEmpresa" class="company-form">
+
+        <h3 style="margin-bottom:25px;">
+            Publicar una oferta
+        </h3>
+
+        <form onsubmit="publicarOferta(event)">
+
+            <label>Puesto</label>
+
+            <input
+                type="text"
+                id="puesto"
+                placeholder="Ej. Camarero/a"
+                required
+            >
+
+
+            <label>Empresa</label>
+
+            <input
+                type="text"
+                id="empresa"
+                placeholder="Nombre de la empresa"
+                required
+            >
+
+
+            <label>Ubicación</label>
+
+            <input
+                type="text"
+                id="ubicacion"
+                placeholder="Ej. Albacete"
+                required
+            >
+
+
+            <label>Tipo de jornada</label>
+
+            <select id="jornada">
+
+                <option>Jornada completa</option>
+                <option>Media jornada</option>
+                <option>Fines de semana</option>
+                <option>Otra</option>
+
+            </select>
+
+
+            <label>Descripción</label>
+
+            <textarea
+                id="descripcion"
+                rows="5"
+                placeholder="Describe el puesto..."
+                required
+            ></textarea>
+
+
+            <label>Requisitos</label>
+
+            <textarea
+                id="requisitos"
+                rows="4"
+                placeholder="Indica los requisitos..."
+            ></textarea>
+
+
+            <button type="submit" class="button primary">
+                Publicar oferta
+            </button>
+
+        </form>
+
+    </div>
 
 </section>
 
@@ -253,9 +480,11 @@
     <h2>Sobre SINEX</h2>
 
     <p style="text-align:center; max-width:700px; margin:auto; line-height:1.7; color:#666;">
+
         SINEX nace para ayudar a estudiantes, recién graduados
         y personas que buscan una oportunidad laboral a
         conectar con empresas.
+
     </p>
 
 </section>
@@ -264,6 +493,196 @@
 <footer>
     © 2026 SINEX
 </footer>
+
+
+<script>
+
+    /* Datos de las ofertas */
+
+    const ofertas = {
+
+        camarero: {
+            titulo: "Camarero/a",
+            empresa: "Restaurante de Albacete",
+            ubicacion: "Albacete",
+            jornada: "Media jornada",
+            descripcion: "Restaurante busca una persona para incorporarse al equipo como camarero/a. No es necesaria experiencia previa.",
+            requisitos: "Ganas de trabajar, responsabilidad y disponibilidad."
+        },
+
+        dependiente: {
+            titulo: "Dependiente/a",
+            empresa: "Comercio local",
+            ubicacion: "Albacete",
+            jornada: "Fines de semana",
+            descripcion: "Comercio busca una persona para atender a clientes y ayudar en las tareas del establecimiento.",
+            requisitos: "Buena actitud, trato con el público y ganas de aprender."
+        },
+
+        administrativo: {
+            titulo: "Administrativo/a Junior",
+            empresa: "Empresa de servicios",
+            ubicacion: "Albacete",
+            jornada: "Jornada completa",
+            descripcion: "Empresa busca una persona con formación administrativa para incorporarse al equipo.",
+            requisitos: "Formación administrativa y manejo básico de ordenador."
+        }
+
+    };
+
+
+    /* Abrir oferta */
+
+    function mostrarOferta(id) {
+
+        const oferta = ofertas[id];
+
+        document.getElementById("ofertaTitulo").textContent = oferta.titulo;
+
+        document.getElementById("ofertaEmpresa").textContent =
+            "Empresa: " + oferta.empresa;
+
+        document.getElementById("ofertaUbicacion").textContent =
+            "Ubicación: " + oferta.ubicacion;
+
+        document.getElementById("ofertaJornada").textContent =
+            "Jornada: " + oferta.jornada;
+
+        document.getElementById("ofertaDescripcion").textContent =
+            "Descripción: " + oferta.descripcion;
+
+        document.getElementById("ofertaRequisitos").textContent =
+            "Requisitos: " + oferta.requisitos;
+
+        document.getElementById("modalOferta").style.display = "block";
+
+    }
+
+
+    /* Cerrar oferta */
+
+    function cerrarOferta() {
+
+        document.getElementById("modalOferta").style.display = "none";
+
+    }
+
+
+    /* Me interesa */
+
+    function meInteresa() {
+
+        alert(
+            "¡Genial! Para enviar tu candidatura tendrás que crear una cuenta y subir tu CV. Esta parte la construiremos en el siguiente paso."
+        );
+
+    }
+
+
+    /* No me interesa */
+
+    function noMeInteresa() {
+
+        alert(
+            "Oferta descartada. Más adelante SINEX podrá guardar tus preferencias en tu cuenta."
+        );
+
+        cerrarOferta();
+
+    }
+
+
+    /* Mostrar formulario de empresa */
+
+    function mostrarFormulario() {
+
+        const formulario =
+            document.getElementById("formularioEmpresa");
+
+        formulario.style.display = "block";
+
+        formulario.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* Publicar oferta de prueba */
+
+    function publicarOferta(event) {
+
+        event.preventDefault();
+
+        const puesto =
+            document.getElementById("puesto").value;
+
+        const empresa =
+            document.getElementById("empresa").value;
+
+        const ubicacion =
+            document.getElementById("ubicacion").value;
+
+        const jornada =
+            document.getElementById("jornada").value;
+
+        const descripcion =
+            document.getElementById("descripcion").value;
+
+        const requisitos =
+            document.getElementById("requisitos").value;
+
+
+        const nuevaOferta = document.createElement("div");
+
+        nuevaOferta.className = "card";
+
+        nuevaOferta.innerHTML = `
+
+            <h3>${puesto}</h3>
+
+            <p>
+                ${empresa} busca una persona para trabajar
+                en ${ubicacion}.
+            </p>
+
+            <span class="tag">
+                ${jornada}
+            </span>
+
+        `;
+
+
+        document.querySelector(".cards").appendChild(nuevaOferta);
+
+
+        alert(
+            "Oferta creada correctamente. Más adelante la conectaremos a una base de datos para que sea una oferta real."
+        );
+
+
+        event.target.reset();
+
+    }
+
+
+    /* Cerrar ventana si se pulsa fuera */
+
+    window.onclick = function(event) {
+
+        const modal =
+            document.getElementById("modalOferta");
+
+        if (event.target === modal) {
+
+            cerrarOferta();
+
+        }
+
+    };
+
+</script>
+
 
 </body>
 </html>
