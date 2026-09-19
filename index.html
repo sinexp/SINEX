@@ -612,60 +612,51 @@
 
     /* Publicar oferta de prueba */
 
-    function publicarOferta(event) {
+    async function publicarOferta(event) {
+    event.preventDefault();
 
-        event.preventDefault();
+    const puesto = document.getElementById("puesto").value;
+    const empresa = document.getElementById("empresa").value;
+    const ubicacion = document.getElementById("ubicacion").value;
+    const jornada = document.getElementById("jornada").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const requisitos = document.getElementById("requisitos").value;
 
-        const puesto =
-            document.getElementById("puesto").value;
+    const { data, error } = await supabaseClient
+        .from("ofertas")
+        .insert([
+            {
+                puesto: puesto,
+                empresa: empresa,
+                ubicacion: ubicacion,
+                jornada: jornada,
+                descripcion: descripcion,
+                requisitos: requisitos
+            }
+        ])
+        .select();
 
-        const empresa =
-            document.getElementById("empresa").value;
-
-        const ubicacion =
-            document.getElementById("ubicacion").value;
-
-        const jornada =
-            document.getElementById("jornada").value;
-
-        const descripcion =
-            document.getElementById("descripcion").value;
-
-        const requisitos =
-            document.getElementById("requisitos").value;
-
-
-        const nuevaOferta = document.createElement("div");
-
-        nuevaOferta.className = "card";
-
-        nuevaOferta.innerHTML = `
-
-            <h3>${puesto}</h3>
-
-            <p>
-                ${empresa} busca una persona para trabajar
-                en ${ubicacion}.
-            </p>
-
-            <span class="tag">
-                ${jornada}
-            </span>
-
-        `;
-
-
-        document.querySelector(".cards").appendChild(nuevaOferta);
-
-
-        alert(
-            "Oferta creada correctamente. Más adelante la conectaremos a una base de datos para que sea una oferta real."
-        );
-
-
-        event.target.reset();
-
+    if (error) {
+        alert("Ha ocurrido un error al publicar la oferta.");
+        console.error(error);
+        return;
     }
+
+    alert("Oferta publicada correctamente en SINEX.");
+
+    const nuevaOferta = document.createElement("div");
+    nuevaOferta.className = "card";
+
+    nuevaOferta.innerHTML = `
+        <h3>${puesto}</h3>
+        <p>${empresa} busca una persona para trabajar en ${ubicacion}.</p>
+        <span class="tag">${jornada}</span>
+    `;
+
+    document.querySelector(".cards").appendChild(nuevaOferta);
+
+    event.target.reset();
+}
 
 
     /* Cerrar ventana si se pulsa fuera */
