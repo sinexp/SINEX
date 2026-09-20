@@ -680,6 +680,47 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+    async function cargarOfertas() {
+    const { data, error } = await supabaseClient
+        .from("ofertas")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Error al cargar ofertas:", error);
+        return;
+    }
+
+    const contenedor = document.querySelector(".cards");
+
+    if (!contenedor) {
+        return;
+    }
+
+    data.forEach(oferta => {
+        const nuevaOferta = document.createElement("div");
+        nuevaOferta.className = "card";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = oferta.puesto;
+
+        const texto = document.createElement("p");
+        texto.textContent =
+            `${oferta.empresa} busca una persona para trabajar en ${oferta.ubicacion}.`;
+
+        const etiqueta = document.createElement("span");
+        etiqueta.className = "tag";
+        etiqueta.textContent = oferta.jornada;
+
+        nuevaOferta.appendChild(titulo);
+        nuevaOferta.appendChild(texto);
+        nuevaOferta.appendChild(etiqueta);
+
+        contenedor.appendChild(nuevaOferta);
+    });
+}
+
+cargarOfertas();
 </script>
 
 
